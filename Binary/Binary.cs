@@ -21,20 +21,26 @@ namespace CP
         #region(Implicit Convertors: int to Binary, Binary to int)
 
         public static implicit operator Binary(int num)
-        {
+        {   //if -ve number, find binary of the number without sign, then return 2s complement
+            int positiveNum = Math.Abs(num);
             int[] array = new int[16];
-            //create int array in binary form
-            for (int i = 15; num > 0; i--)
-            {
-                array[i] = num % 2;
-                num = num / 2;
-            }
-
             Binary bin = new Binary();
+            //create int array in binary form
+            for (int i = 15; positiveNum > 0; i--)
+            {
+                array[i] = positiveNum % 2;
+                positiveNum = positiveNum / 2;
+            }
             bin.value = array;
+            if (num < 0)
+            {
+
+                bin = -bin;
+            }
             return bin;
 
         }
+
         public static implicit operator int(Binary bin)
         {
             throw new NotImplementedException();
@@ -52,9 +58,37 @@ namespace CP
 
         public decimal ToDecimal()
         {
-            //int[] array = this.value;
+            int dec = 0, power = 1;
+            int[] array2 = new int[16];
 
-            throw new NotImplementedException();
+            this.value.CopyTo(array2, 0);
+
+            if (array2[0] == 1)
+            {
+                Binary bin = ~this;
+                bin.value.CopyTo(array2, 0);
+
+                AddOneToArray(array2);
+
+                power = -1;
+            }
+
+            for (int i = (array2.Length - 1); i >= 0; i--)
+            {
+                dec = dec + (array2[i] * power);
+                power = power * 2;
+            }
+            return dec;
+        }
+
+        private static void AddOneToArray(int[] array)
+        {
+            int mem = 0;
+            for (int i = array.Length - 1; i >= 0; i--)
+            {
+                array[i] = (mem + array[i] + 1) % 2;
+                mem = mem + array[i] + 1 >= 2 ? 1 : 0;
+            }
         }
         #endregion
         #region(Shift Opertors: Shift to left by n (<<), Shift to right by n (>>))
@@ -95,14 +129,35 @@ namespace CP
         }
         #endregion
         #region(Binary Operators: Ones' complement, Negation)
-
         public static Binary operator ~(Binary binary)
         {
-            throw new NotImplementedException();
+            Binary binary2 = new Binary();
+            int[] array = new int[16];
+            binary.value.CopyTo(array, 0);
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (array[i] == 0)
+                {
+                    array[i] = 1;
+
+                }
+                else
+                {
+                    array[i] = 0;
+                }
+            }
+            binary2.value = array;
+            return binary2;
         }
         public static Binary operator -(Binary binary)
         {
-            throw new NotImplementedException();
+
+            binary = ~binary;
+            int[] array = binary.value;
+            AddOneToArray(array);
+            return binary;
+
         }
         #endregion
         #region(Binary Arithmatic Opertors: +, -, *, /)
