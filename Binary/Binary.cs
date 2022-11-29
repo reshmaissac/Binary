@@ -12,11 +12,17 @@ namespace CP
     class Binary
     {
         #region(Fields)
-        private int[] value;
-        #endregion
+        private int[] arr = new int[16];
+        #endregion 
         #region(Properties)
+        public int Length { get { return arr.Length; } }
         #endregion
         #region(Index operator)
+        public int this[int i]
+        {
+            get => arr[i];
+            set => arr[i] = value;
+        }
         #endregion
         #region(Implicit Convertors: int to Binary, Binary to int)
 
@@ -25,16 +31,15 @@ namespace CP
             try
             {
 
-                int positiveNum = Math.Abs(num);
-                int[] array = new int[16];
                 Binary bin = new Binary();
-                //create int array in binary form
+                int positiveNum = Math.Abs(num);
+
+                //populate array with binary bits using index operator
                 for (int i = 15; positiveNum > 0; i--)
                 {
-                    array[i] = positiveNum % 2;
+                    bin[i] = positiveNum % 2;
                     positiveNum = positiveNum / 2;
                 }
-                bin.value = array;
                 //binary of a -ve num is equivalent to 2s complement of its +ve value.
                 if (num < 0)
                 {
@@ -50,25 +55,22 @@ namespace CP
 
         }
 
-        public static implicit operator int(Binary bin)
+        public static implicit operator int(Binary binary)
         {
             try
             {
                 int num = 0, power = 1;
-                int[] array2 = bin.value;
+                Binary bin1 = binary;
                 //Find int of signed binary.(If 1st bit  is 1 its -ve integer, else +ve integer)
-                if (array2[0] == 1)
+                if (binary[0] == 1)
                 {
-                    Binary bin1 = ~bin;
-                    bin1.value.CopyTo(array2, 0);
-
-                    AddOneToArray(array2);
-
+                    bin1 = ~binary;
+                    AddOneToBinary(bin1);
                     power = -1;
                 }
-                for (int i = (array2.Length - 1); i >= 0; i--)
+                for (int i = (bin1.Length - 1); i >= 0; i--)
                 {
-                    num = num + (array2[i] * power);
+                    num = num + (bin1[i] * power);
                     power = power * 2;
                 }
                 return num;
@@ -87,20 +89,16 @@ namespace CP
         {
             try
             {
-                int[] array = this.value;
                 string binaryString = "";
-                for (int i = 0; i < array.Length; i++)
+                for (int i = 0; i < this.Length; i++)
                 {
-                    binaryString = binaryString + array[i];
+                    binaryString = binaryString + this[i];
                     if ((i + 1) % 4 == 0)
                     {
                         binaryString = binaryString + " ";
                     }
                 }
-                //string binaryString = string.Join(string.Empty, this.value);
-                //return string.Join(' ', binaryString.Chunk(size: 4).Select(b => new string(b)));
                 return binaryString;
-
             }
             catch
             {
@@ -117,13 +115,13 @@ namespace CP
         /// Private method to add 1 to binary.
         /// </summary>
         /// <param name="array"></param>
-        private static void AddOneToArray(int[] array)
+        private static void AddOneToBinary(Binary binArray)
         {
             int mem = 0;
-            for (int i = array.Length - 1; i >= 0; i--)
+            for (int i = binArray.Length - 1; i >= 0; i--)
             {
-                array[i] = (mem + array[i] + 1) % 2;
-                mem = mem + array[i] + 1 >= 2 ? 1 : 0;
+                binArray[i] = (mem + binArray[i] + 1) % 2;
+                mem = mem + binArray[i] + 1 >= 2 ? 1 : 0;
             }
         }
         #endregion
@@ -133,20 +131,18 @@ namespace CP
         {
             try
             {
-                int[] array = binary.value;
-                for (int i = 0; i < array.Length; i++)
+                for (int i = 0; i < binary.Length; i++)
                 {
                     if ((i - n) >= 0)
                     {
-                        array[i - n] = array[i];
+                        binary[i - n] = binary[i];
                     }
                 }
                 // Add 0 to rightmost n bits
-                for (int j = (array.Length - 1); j >= (array.Length - n); j--)
+                for (int j = (binary.Length - 1); j >= (binary.Length - n); j--)
                 {
-                    array[j] = 0;
+                    binary[j] = 0;
                 }
-                binary.value = array;
                 return binary;
 
             }
@@ -160,22 +156,19 @@ namespace CP
         {
             try
             {
-                int[] array = binary.value;
-                for (int i = (array.Length - 1); i >= 0; i--)
+                for (int i = (binary.Length - 1); i >= 0; i--)
                 {
-                    if ((i + n) < array.Length)
+                    if ((i + n) < binary.Length)
                     {
-                        array[i + n] = array[i];
+                        binary[i + n] = binary[i];
                     }
                 }
                 //Add 0 to the leftmost n bits
                 for (int j = 0; j < n; j++)
                 {
-                    array[j] = 0;
+                    binary[j] = 0;
                 }
-                binary.value = array;
                 return binary;
-
             }
             catch
             {
@@ -190,24 +183,20 @@ namespace CP
             try
             {
                 Binary binary2 = new Binary();
-                int[] array = new int[16];
-                binary.value.CopyTo(array, 0);
 
-                for (int i = 0; i < array.Length; i++)
+                for (int i = 0; i < binary.Length; i++)
                 {
-                    if (array[i] == 0)
+                    if (binary[i] == 0)
                     {
-                        array[i] = 1;
+                        binary2[i] = 1;
 
                     }
                     else
                     {
-                        array[i] = 0;
+                        binary2[i] = 0;
                     }
                 }
-                binary2.value = array;
                 return binary2;
-
             }
             catch
             {
@@ -217,16 +206,36 @@ namespace CP
         public static Binary operator -(Binary binary)
         {
 
-            binary = ~binary;
-            int[] array = binary.value;
-            AddOneToArray(array);
-            return binary;
+            Binary bin = ~binary;
+            AddOneToBinary(bin);
+            return bin;
 
         }
         #endregion
         #region(Binary Arithmatic Opertors: +, -, *, /)
         #endregion
         #region(Logical Operators: ==, !=, <, >, <=, >=)
+
+        public static bool operator ==(Binary bin1, Binary bin2)
+        {
+            if (bin1 != bin2)
+            {
+                return false;
+            }
+            
+            return true;
+        }
+        public static bool operator !=(Binary bin1, Binary bin2)
+        {
+            for (int i = 0; i < bin1.Length; i++)
+            {
+                if (bin1[i] != bin2[i])
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         #endregion
     }
 }
