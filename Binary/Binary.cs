@@ -32,6 +32,7 @@ namespace CP
             {
 
                 Binary bin = new Binary();
+                
                 int positiveNum = Math.Abs(num);
 
                 //populate array with binary bits using index operator
@@ -123,6 +124,59 @@ namespace CP
                 binArray[i] = (mem + binArray[i] + 1) % 2;
                 mem = mem + binArray[i] + 1 >= 2 ? 1 : 0;
             }
+        }
+        public static Binary operator +(Binary bin1, Binary bin2)
+        {
+            int mem = 0;
+            Binary result = new Binary();
+            for (int i = bin1.Length - 1; i >= 0; i--)
+            {
+                result[i] = (mem + bin1[i] + bin2[i]) % 2;
+                mem = mem + bin1[i] + bin2[i] >= 2 ? 1 : 0;
+            }
+            return result;
+        }
+
+        public static Binary operator -(Binary bin1, Binary bin2)
+        {
+            bin2 = -bin2;
+            return bin1+bin2;
+        }
+        public static Binary operator *(Binary bin1, Binary bin2)
+        {
+            Binary result = new Binary();
+           
+            
+            for (int i = bin1.Length - 1; i >= 0; i--)
+            {
+                if (i == 15)
+                {
+                    if (bin2[15] == 1)
+                    {
+                        result = bin1;
+                    }
+                    else
+                    {
+                        result = 0;
+                    }
+                    
+                } else
+                {
+                    if (bin2[i] == 1)
+                    {
+                        bin1 = bin1 << 1;
+                        result = result + bin1;
+                    }
+                    else
+                    {
+                        //result = result<<1;
+                        bin1 = bin1 << 1;
+                    }
+                }
+               
+
+            }
+            return result;
         }
         #endregion
         #region(Shift Opertors: Shift to left by n (<<), Shift to right by n (>>))
