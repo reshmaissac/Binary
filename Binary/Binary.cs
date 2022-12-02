@@ -269,8 +269,8 @@
                 count = count + 1;
                 num1=num1 - num2;
             }
-            if (num1 < 0) { if (num2 >= 0) { count = -count; } }
-            else { if (num2 < 0) { count = -count; } }
+            if (bin1 < 0) { if (bin2 >= 0) { count = -count; } }
+            else { if (bin2 < 0) { count = -count; } }
             return count;
         }
 
@@ -281,10 +281,8 @@
             if (bin1 < 0) { num1 = -num1; }
             if (bin2 < 0) { num2 = -num2; }
             while (num1 > num2)
-            {
-                num1 = num1 - num2;
-            }
-            if (num1 < 0) { num1 = -num1; } 
+            { num1 = num1 - num2;}
+            if (bin1 < 0) { num1 = -num1; } 
             return num1;
         }
         
