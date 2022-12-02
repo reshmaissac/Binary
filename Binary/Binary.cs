@@ -203,7 +203,7 @@ namespace CP
 
         }
         #endregion
-        #region(Binary Arithmatic Opertors: +, -, *, /)
+        #region(Binary Arithmatic Opertors: +, -, *, /, %)
         public static Binary operator +(Binary bin1, Binary bin2)
         {
             int carry = 0;
@@ -281,6 +281,48 @@ namespace CP
                     return true;
                 }
             }
+            return false;
+        }
+        public static bool operator <(Binary bin1, Binary bin2)
+        {
+            Binary bin = bin1 - bin2;
+            if ((bin[0] == 1) && (bin1 != bin2))
+            {
+                return true;
+            }
+
+            return false;
+        }
+        public static bool operator >(Binary bin1, Binary bin2)
+        {
+            if ((bin1<bin2))
+            {
+                return false;
+            } else if(bin1 != bin2)
+            {
+                return true;
+            }
+
+            return false;
+        }
+        public static bool operator <=(Binary bin1, Binary bin2)
+        {
+            Binary bin = bin1 - bin2;
+            if ((bin1 < bin2) || (bin1 == bin2))
+            {
+                return true;
+            }
+
+            return false;
+        }
+        public static bool operator >=(Binary bin1, Binary bin2)
+        {
+            Binary bin = bin1 - bin2;
+            if ((bin1 > bin2) || bin1 == bin2)
+            {
+                return true;
+            }
+
             return false;
         }
         #endregion
