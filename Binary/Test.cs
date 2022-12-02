@@ -77,7 +77,7 @@ namespace CP
             Console.WriteLine("printing -x * y (0000 0000 0111 1000): {0}", -x * y);
             Console.WriteLine("printing -x * y in decimal (120): {0}", (-x * y).ToDecimal());
 
-            x = 10; y = 3;
+            /*x = 10; y = 3;
             Console.WriteLine("printing x / y (0000 0000 0000 0011): {0}", x / y);
             Console.WriteLine("printing x / y in decimal (3): {0}", (x / y).ToDecimal());
             Console.WriteLine("printing x % y (0000 0000 0000 0001): {0}", x % y);
@@ -121,7 +121,7 @@ namespace CP
             Console.WriteLine("printing x / y (0000 0000 0000 0010): {0}", x / y);
             Console.WriteLine("printing x / y in decimal (2): {0}", (x / y).ToDecimal());
             Console.WriteLine("printing x % y (1111 1111 1111 0101): {0}", x % y);
-            Console.WriteLine("printing x / y in decimal (-11): {0}", (x % y).ToDecimal());
+            Console.WriteLine("printing x / y in decimal (-11): {0}", (x % y).ToDecimal());*/
 
             Console.WriteLine();
         }

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CP
+﻿namespace CP
 {
     // Requirements, Assignment/Implementation Rules:
     //  You must work with 16 bits, hint: Use an int array of 16 as a field
@@ -32,7 +30,7 @@ namespace CP
             {
 
                 Binary bin = new Binary();
-                
+
                 int positiveNum = Math.Abs(num);
 
                 //populate array with binary bits using index operator
@@ -113,7 +111,7 @@ namespace CP
             return this;
 
         }
-        
+
         #endregion
         #region(Shift Opertors: Shift to left by n (<<), Shift to right by n (>>))
 
@@ -136,7 +134,7 @@ namespace CP
                 return binary;
 
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 return null;
@@ -222,7 +220,7 @@ namespace CP
             bin = bin1 + bin;
             return bin;
         }
-        public static Binary operator * (Binary bin1, Binary bin2)
+        public static Binary operator *(Binary bin1, Binary bin2)
         {
             Binary bin1Copy = new Binary();
             for (int i = 0; i < (bin1.Length - 1); i++)
@@ -269,7 +267,7 @@ namespace CP
             {
                 return false;
             }
-            
+
             return true;
         }
         public static bool operator !=(Binary bin1, Binary bin2)
@@ -282,6 +280,56 @@ namespace CP
                 }
             }
             return false;
+        }
+        public static bool operator >(Binary bin1, Binary bin2)
+        {
+            if (bin1[0] == 0 && bin2[0] == 1)
+            {
+                return true;
+            }
+            else if (bin1[0] == 1 && bin2[0] == 0)
+            {
+                return false;
+            }
+            else
+            {
+                for (int i = 1; i < bin1.Length; i++)
+                {
+
+                    if (bin1[i] == 1 && bin2[i] == 0)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+        public static bool operator <(Binary bin1, Binary bin2)
+        {
+
+            if (bin1[0] == 1 && bin2[0] == 0)
+            {
+                return true;
+            }
+            else if (bin1[0] == 0 && bin2[0] == 1)
+            {
+                return false;
+            }
+            else
+            {
+                for (int i = 1; i < bin1.Length; i++)
+                {
+
+                    if (bin1[i] == 0 && bin2[i] == 1)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
         }
         #endregion
     }
