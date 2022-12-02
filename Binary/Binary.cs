@@ -257,7 +257,49 @@
             }
             return result;
         }
+        public static Binary operator / (Binary bin1, Binary bin2)
+        {
+            Binary num1= bin1;
+            Binary num2 = bin2;
+            Binary count = 0;
+            if (bin1 < 0) { num1= -num1 ; }
+            if(bin2 < 0) { num2= -num2 ; }
+            while (num1 > num2)
+            {
+                count = count + 1;
+                num1=num1 - num2;
+            }
+            if (num1 < 0) { if (num2 >= 0) { count = -count; } }
+            else { if (num2 < 0) { count = -count; } }
+            return count;
+        }
 
+        public static Binary operator %(Binary bin1, Binary bin2)
+        {
+            Binary num1 = bin1;
+            Binary num2 = bin2;
+            if (bin1 < 0) { num1 = -num1; }
+            if (bin2 < 0) { num2 = -num2; }
+            while (num1 > num2)
+            {
+                num1 = num1 - num2;
+            }
+            if (num1 < 0) { num1 = -num1; } 
+            return num1;
+        }
+        
+        #endregion
+        #region(Logical Operators: ==, !=, <, >, <=, >=)
+
+        public static bool operator ==(Binary bin1, Binary bin2)
+        {
+            if (bin1 != bin2)
+            {
+                return false;
+            }
+            
+            return true;
+        }
         #endregion
         #region(Logical Operators: ==, !=, <, >, <=, >=)
 
@@ -281,55 +323,48 @@
             }
             return false;
         }
-        public static bool operator >(Binary bin1, Binary bin2)
+                public static bool operator <(Binary bin1, Binary bin2)
         {
-            if (bin1[0] == 0 && bin2[0] == 1)
+            Binary bin = bin1 - bin2;
+            if ((bin[0] == 1) && (bin1 != bin2))
             {
                 return true;
-            }
-            else if (bin1[0] == 1 && bin2[0] == 0)
-            {
-                return false;
-            }
-            else
-            {
-                for (int i = 1; i < bin1.Length; i++)
-                {
-
-                    if (bin1[i] == 1 && bin2[i] == 0)
-                    {
-                        return true;
-                    }
-                }
             }
 
             return false;
         }
-        public static bool operator <(Binary bin1, Binary bin2)
+        public static bool operator >(Binary bin1, Binary bin2)
         {
-
-            if (bin1[0] == 1 && bin2[0] == 0)
+            if ((bin1 < bin2))
+            {
+                return false;
+            }
+            else if (bin1 != bin2)
             {
                 return true;
             }
-            else if (bin1[0] == 0 && bin2[0] == 1)
-            {
-                return false;
-            }
-            else
-            {
-                for (int i = 1; i < bin1.Length; i++)
-                {
 
-                    if (bin1[i] == 0 && bin2[i] == 1)
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
+            return false;
+        }
+        public static bool operator <=(Binary bin1, Binary bin2)
+        {
+            Binary bin = bin1 - bin2;
+            if ((bin1 < bin2) || (bin1 == bin2))
+            {
+                return true;
             }
 
+            return false;
+        }
+        public static bool operator >=(Binary bin1, Binary bin2)
+        {
+            Binary bin = bin1 - bin2;
+            if ((bin1 > bin2) || bin1 == bin2)
+            {
+                return true;
+            }
+
+            return false;
         }
         #endregion
     }
