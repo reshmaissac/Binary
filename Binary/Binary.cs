@@ -259,7 +259,37 @@ namespace CP
             }
             return result;
         }
+        public static Binary operator / (Binary bin1, Binary bin2)
+        {
+            Binary num1= bin1;
+            Binary num2 = bin2;
+            Binary count = 0;
+            if (bin1 < 0) { num1= -num1 ; }
+            if(bin2 < 0) { num2= -num2 ; }
+            while (num1 > num2)
+            {
+                count = count + 1;
+                num1=num1 - num2;
+            }
+            if (num1 < 0) { if (num2 >= 0) { count = -count; } }
+            else { if (num2 < 0) { count = -count; } }
+            return count;
+        }
 
+        public static Binary operator %(Binary bin1, Binary bin2)
+        {
+            Binary num1 = bin1;
+            Binary num2 = bin2;
+            if (bin1 < 0) { num1 = -num1; }
+            if (bin2 < 0) { num2 = -num2; }
+            while (num1 > num2)
+            {
+                num1 = num1 - num2;
+            }
+            if (num1 < 0) { num1 = -num1; } 
+            return num1;
+        }
+        
         #endregion
         #region(Logical Operators: ==, !=, <, >, <=, >=)
 
