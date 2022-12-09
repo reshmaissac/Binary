@@ -33,7 +33,11 @@ namespace CP
 
                 Binary bin = new Binary();
                 
-                int positiveNum = Math.Abs(num);
+                //int positiveNum = Math.Abs(num);
+                
+                int positiveNum;
+                if (num >= 0) { positiveNum = num; }
+                else { positiveNum = -num; }
 
                 //populate array with binary bits using index operator
                 for (int i = 15; positiveNum > 0; i--)
