@@ -12,16 +12,16 @@ namespace CP
     class Binary
     {
         #region(Fields)
-        private int[] arr = new int[16];
+        private int[] bits = new int[16];
         #endregion 
         #region(Properties)
-        public int Length { get { return arr.Length; } }
+        public int Length { get { return bits.Length; } }
         #endregion
         #region(Index operator)
         public int this[int i]
         {
-            get => arr[i];
-            set => arr[i] = value;
+            get => bits[i];
+            set => bits[i] = value;
         }
         #endregion
         #region(Implicit Convertors: int to Binary, Binary to int)
@@ -33,13 +33,14 @@ namespace CP
 
                 Binary bin = new Binary();
                 
-                //int positiveNum = Math.Abs(num);
-                
                 int positiveNum;
-                if (num >= 0) { positiveNum = num; }
-                else { positiveNum = -num; }
-
-                //populate array with binary bits using index operator
+                if (num >= 0) {
+                    positiveNum = num; 
+                }
+                else {
+                    positiveNum = -num; 
+                }
+                //find binary of +ve integer by populating binary bits using index operator
                 for (int i = 15; positiveNum > 0; i--)
                 {
                     bin[i] = positiveNum % 2;
@@ -210,14 +211,21 @@ namespace CP
         #region(Binary Arithmatic Opertors: +, -, *, /, %)
         public static Binary operator +(Binary bin1, Binary bin2)
         {
-            int carry = 0;
-            Binary result = new Binary();
-            for (int i = bin1.Length - 1; i >= 0; i--)
+            try
             {
-                result[i] = (carry + bin1[i] + bin2[i]) % 2;
-                carry = carry + bin1[i] + bin2[i] >= 2 ? 1 : 0;
+                int carry = 0;
+                Binary result = new Binary();
+                for (int i = bin1.Length - 1; i >= 0; i--)
+                {
+                    result[i] = (carry + bin1[i] + bin2[i]) % 2;
+                    carry = carry + bin1[i] + bin2[i] >= 2 ? 1 : 0;
+                }
+                return result;
+
+            } catch
+            {
+                return null;
             }
-            return result;
         }
 
         public static Binary operator -(Binary bin1, Binary bin2)
@@ -228,68 +236,91 @@ namespace CP
         }
         public static Binary operator * (Binary bin1, Binary bin2)
         {
-            Binary bin1Copy = new Binary();
-            for (int i = 0; i < (bin1.Length - 1); i++)
+            try
             {
-                bin1Copy[i] = bin1[i];
-            }
-            Binary result = new Binary();
+                Binary bin1Copy = new Binary();
+                for (int i = 0; i < (bin1.Length - 1); i++)
+                {
+                    bin1Copy[i] = bin1[i];
+                }
+                Binary result = new Binary();
+                for (int i = (bin2.Length - 1); i >= 0; i--)
+                {
+                    //no shifing for 1st time
+                    if (i == (bin2.Length - 1))
+                    {
+                        //if bin1 multiplied by 1 result is bin1 itself,else bin1 multiplied by 0 result is 0
+                        if (bin2[i] == 1)
+                        {
+                            result = bin1Copy;
+                        }
+                        else
+                        {
+                            result = 0;
+                        }
+                    }
+                    else
+                    {
+                        //shift and add each result to get final multiplication value
+                        if (bin2[i] == 1)
+                        {
+                            bin1Copy = bin1Copy << 1;
+                            result = result + bin1Copy;
+                        }
+                        else
+                        {
+                            bin1Copy = bin1Copy << 1;
+                        }
+                    }
+                }
+                return result;
 
-            for (int i = (bin2.Length - 1); i >= 0; i--)
+            } catch
             {
-                if (i == (bin2.Length - 1))
-                {
-                    if (bin2[i] == 1)
-                    {
-                        result = bin1Copy;
-                    }
-                    else
-                    {
-                        result = 0;
-                    }
-                }
-                else
-                {
-                    if (bin2[i] == 1)
-                    {
-                        bin1Copy = bin1Copy << 1;
-                        result = result + bin1Copy;
-                    }
-                    else
-                    {
-                        bin1Copy = bin1Copy << 1;
-                    }
-                }
+                return null;
             }
-            return result;
         }
          public static Binary operator / (Binary bin1, Binary bin2)
         {
-            Binary num1= bin1;
-            Binary num2 = bin2;
-            Binary count = 0;
-            if (bin1 < 0) { num1= -num1 ; }
-            if(bin2 < 0) { num2= -num2 ; }
-            while (num1 > num2)
+            try
             {
-                count = count + 1;
-                num1=num1 - num2;
+                Binary num1 = bin1;
+                Binary num2 = bin2;
+                Binary count = 0;
+                if (bin1 < 0) { num1 = -num1; }
+                if (bin2 < 0) { num2 = -num2; }
+                while (num1 > num2)
+                {
+                    count = count + 1;
+                    num1 = num1 - num2;
+                }
+                if (bin1 < 0) { if (bin2 >= 0) { count = -count; } }
+                else { if (bin2 < 0) { count = -count; } }
+                return count;
+
+            } catch
+            {
+                return null;
             }
-            if (bin1 < 0) { if (bin2 >= 0) { count = -count; } }
-            else { if (bin2 < 0) { count = -count; } }
-            return count;
         }
 
         public static Binary operator %(Binary bin1, Binary bin2)
         {
-            Binary num1 = bin1;
-            Binary num2 = bin2;
-            if (bin1 < 0) { num1 = -num1; }
-            if (bin2 < 0) { num2 = -num2; }
-            while (num1 > num2)
-            { num1 = num1 - num2;}
-            if (bin1 < 0) { num1 = -num1; } 
-            return num1;
+            try
+            {
+                Binary num1 = bin1;
+                Binary num2 = bin2;
+                if (bin1 < 0) { num1 = -num1; }
+                if (bin2 < 0) { num2 = -num2; }
+                while (num1 > num2)
+                { num1 = num1 - num2; }
+                if (bin1 < 0) { num1 = -num1; }
+                return num1;
+
+            } catch
+            {
+                return null;
+            }
         }
         
         #endregion
