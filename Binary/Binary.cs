@@ -32,13 +32,15 @@ namespace CP
             {
 
                 Binary bin = new Binary();
-                
+
                 int positiveNum;
-                if (num >= 0) {
-                    positiveNum = num; 
+                if (num >= 0)
+                {
+                    positiveNum = num;
                 }
-                else {
-                    positiveNum = -num; 
+                else
+                {
+                    positiveNum = -num;
                 }
                 //find binary of +ve integer by populating binary bits using index operator
                 for (int i = 15; positiveNum > 0; i--)
@@ -118,7 +120,7 @@ namespace CP
             return this;
 
         }
-        
+
         #endregion
         #region(Shift Opertors: Shift to left by n (<<), Shift to right by n (>>))
 
@@ -141,7 +143,7 @@ namespace CP
                 return binary;
 
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 return null;
@@ -222,7 +224,8 @@ namespace CP
                 }
                 return result;
 
-            } catch
+            }
+            catch
             {
                 return null;
             }
@@ -234,7 +237,7 @@ namespace CP
             bin = bin1 + bin;
             return bin;
         }
-        public static Binary operator * (Binary bin1, Binary bin2)
+        public static Binary operator *(Binary bin1, Binary bin2)
         {
             try
             {
@@ -275,12 +278,13 @@ namespace CP
                 }
                 return result;
 
-            } catch
+            }
+            catch
             {
                 return null;
             }
         }
-         public static Binary operator / (Binary bin1, Binary bin2)
+        public static Binary operator /(Binary bin1, Binary bin2)
         {
             try
             {
@@ -294,11 +298,22 @@ namespace CP
                     count = count + 1;
                     num1 = num1 - num2;
                 }
-                if (bin1 < 0) { if (bin2 >= 0) { count = -count; } }
-                else { if (bin2 < 0) { count = -count; } }
+                if (bin1 < 0)
+                {
+                    if (bin2 >= 0)
+                    {
+                        count = -count;
+                    }
+                }
+                else if (bin2 < 0)
+                {
+                    count = -count;
+
+                }
                 return count;
 
-            } catch
+            }
+            catch
             {
                 return null;
             }
@@ -310,19 +325,31 @@ namespace CP
             {
                 Binary num1 = bin1;
                 Binary num2 = bin2;
-                if (bin1 < 0) { num1 = -num1; }
-                if (bin2 < 0) { num2 = -num2; }
+                if (bin1 < 0)
+                {
+                    num1 = -num1;
+                }
+                if (bin2 < 0)
+                {
+                    num2 = -num2;
+                }
                 while (num1 > num2)
-                { num1 = num1 - num2; }
-                if (bin1 < 0) { num1 = -num1; }
+                {
+                    num1 = num1 - num2;
+                }
+                if (bin1 < 0)
+                {
+                    num1 = -num1;
+                }
                 return num1;
 
-            } catch
+            }
+            catch
             {
                 return null;
             }
         }
-        
+
         #endregion
         #region(Logical Operators: ==, !=, <, >, <=, >=)
 
@@ -332,7 +359,7 @@ namespace CP
             {
                 return false;
             }
-            
+
             return true;
         }
         public static bool operator !=(Binary bin1, Binary bin2)
@@ -358,10 +385,11 @@ namespace CP
         }
         public static bool operator >(Binary bin1, Binary bin2)
         {
-            if ((bin1<bin2))
+            if ((bin1 < bin2))
             {
                 return false;
-            } else if(bin1 != bin2)
+            }
+            else if (bin1 != bin2)
             {
                 return true;
             }
